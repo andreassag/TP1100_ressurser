@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Respiratory Visualizer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.11.3/lib/p5.min.js"></script>
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Pedagogic Physiology Studio</p>
+          <h1>Respiratory Function Visualizer</h1>
+          <p class="lede">
+            Two linked interactive models explain how pressure changes drive ventilation
+            and how diffusion plus hemoglobin affinity shape oxygen delivery.
+          </p>
+        </div>
+      </header>
+
+      <section class="model-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Model 1</p>
+            <h2>Respiratory Mechanics and Boyle's Law</h2>
+          </div>
+          <p class="section-copy">
+            The torso view exaggerates diaphragm motion so the inverse pressure-volume
+            relationship is easy to see. Dot flow lags when airway resistance rises.
+          </p>
+        </div>
+        <div class="model-grid">
+          <aside class="control-panel" id="mechanics-controls">
+            <label>
+              <span>Respiratory Rate</span>
+              <input id="respRate" type="range" min="10" max="30" step="1" value="14" />
+              <strong data-output="respRate"></strong>
+            </label>
+            <label>
+              <span>Tidal Volume Depth</span>
+              <input id="tidalVolume" type="range" min="25" max="95" step="1" value="55" />
+              <strong data-output="tidalVolume"></strong>
+            </label>
+            <label>
+              <span>Airway Resistance</span>
+              <input id="airwayResistance" type="range" min="0" max="100" step="1" value="25" />
+              <strong data-output="airwayResistance"></strong>
+            </label>
+            <label>
+              <span>Atmospheric FiO2</span>
+              <input id="fio2" type="range" min="10" max="100" step="1" value="21" />
+              <strong data-output="fio2"></strong>
+            </label>
+            <div class="metric-strip" id="mechanics-metrics"></div>
+          </aside>
+          <div class="canvas-panel">
+            <div id="mechanics-canvas" class="canvas-mount"></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="model-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Model 2</p>
+            <h2>Alveolar Gas Exchange and Hemoglobin</h2>
+          </div>
+          <p class="section-copy">
+            Oxygen diffuses down its gradient into blood, while affinity shifts move the
+            dissociation curve and change how easily red cells load or unload O2.
+          </p>
+        </div>
+        <div class="model-grid">
+          <aside class="control-panel" id="exchange-controls">
+            <label>
+              <span>Affinity Shift</span>
+              <input id="affinityShift" type="range" min="-20" max="20" step="1" value="0" />
+              <strong data-output="affinityShift"></strong>
+            </label>
+            <label>
+              <span>Environmental PO2</span>
+              <input id="alveolarPO2" type="range" min="35" max="110" step="1" value="95" />
+              <strong data-output="alveolarPO2"></strong>
+            </label>
+            <label>
+              <span>Blood Flow Speed</span>
+              <input id="bloodFlow" type="range" min="30" max="140" step="1" value="72" />
+              <strong data-output="bloodFlow"></strong>
+            </label>
+            <div class="metric-strip" id="exchange-metrics"></div>
+          </aside>
+          <div class="canvas-panel">
+            <div id="exchange-canvas" class="canvas-mount"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/app.js"></script>
+  </body>
+</html>
