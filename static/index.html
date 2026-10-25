@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Respiratory Visualizer</title>
+    <title>Respiratory Visualizer | TP1100 Teaching Rig</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/static/styles.css" />
@@ -15,43 +15,103 @@
   </head>
   <body>
     <main class="page-shell">
+      <!-- Global Navigation -->
+      <nav class="site-nav">
+        <a href="/mechanics" class="nav-brand">
+          <span class="nav-icon">🫁</span>
+          <div>
+            <span class="nav-title">TP1100 Respiratory Teaching Rig</span>
+            <span class="nav-subtitle">Physical Hardware &amp; Digital Twin</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/mechanics" class="nav-link active">
+            <span class="nav-badge">Model 1</span> Mechanics &amp; Efficiency
+          </a>
+          <a href="/exchange" class="nav-link">
+            <span class="nav-badge">Model 2</span> Gas Exchange &amp; Hb
+          </a>
+          <a href="/lab-model" class="nav-link">
+            <span class="nav-badge">Model 3</span> Physical Lab Rig
+          </a>
+        </div>
+      </nav>
+
+      <!-- Hero Header -->
       <header class="hero">
         <div>
           <p class="eyebrow">Pedagogic Physiology Studio</p>
           <h1>Respiratory Function Visualizer</h1>
           <p class="lede">
-            Two linked interactive models explain how pressure changes drive ventilation
-            and how diffusion plus hemoglobin affinity shape oxygen delivery.
+            Two linked interactive models explain how pressure changes drive ventilation,
+            why dead space and airway mechanics govern respiratory efficiency, and how diffusion
+            plus hemoglobin affinity shape oxygen delivery.
           </p>
         </div>
       </header>
 
+      <!-- Clinical Presets Bar -->
+      <section class="presets-container">
+        <div class="presets-title">Clinical &amp; Benchtop Lab Presets</div>
+        <div class="preset-bar" id="mechanics-presets">
+          <button type="button" class="preset-btn active" data-preset="normal">
+            🌿 Normal Resting (500 mL, 12 bpm)
+          </button>
+          <button type="button" class="preset-btn" data-preset="shallow_rapid">
+            ⚠️ Shallow Rapid (Dead Space Trap: 200 mL, 30 bpm)
+          </button>
+          <button type="button" class="preset-btn" data-preset="asthma">
+            🌪️ Asthma / Bronchospasm (High Raw = 14)
+          </button>
+          <button type="button" class="preset-btn" data-preset="fibrosis">
+            🧱 Pulmonary Fibrosis (Stiff: CL = 0.06 L/cmH2O)
+          </button>
+          <button type="button" class="preset-btn" data-preset="emphysema">
+            🎈 Emphysema (Floppy: CL = 0.30 L/cmH2O)
+          </button>
+          <button type="button" class="preset-btn" data-preset="snorkel">
+            🤿 Added Snorkel Dead Space (VD = 300 mL)
+          </button>
+        </div>
+      </section>
+
+      <!-- Model 1 Card -->
       <section class="model-card">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Model 1</p>
-            <h2>Respiratory Mechanics and Boyle's Law</h2>
+            <h2>Respiratory Mechanics &amp; Boyle's Law</h2>
           </div>
           <p class="section-copy">
             The torso view exaggerates diaphragm motion so the inverse pressure-volume
-            relationship is easy to see. Dot flow lags when airway resistance rises.
+            relationship is easy to see. Airflow lags when airway resistance rises, and dead space traps fresh air.
           </p>
         </div>
         <div class="model-grid">
           <aside class="control-panel" id="mechanics-controls">
             <label>
-              <span>Respiratory Rate</span>
-              <input id="respRate" type="range" min="10" max="30" step="1" value="14" />
+              <span>Breathing Frequency (RR)</span>
+              <input id="respRate" type="range" min="6" max="35" step="1" value="12" />
               <strong data-output="respRate"></strong>
             </label>
             <label>
-              <span>Tidal Volume Depth</span>
-              <input id="tidalVolume" type="range" min="25" max="95" step="1" value="55" />
+              <span>Tidal Volume (VT)</span>
+              <input id="tidalVolume" type="range" min="150" max="1000" step="10" value="500" />
               <strong data-output="tidalVolume"></strong>
             </label>
             <label>
-              <span>Airway Resistance</span>
-              <input id="airwayResistance" type="range" min="0" max="100" step="1" value="25" />
+              <span>Anatomical Dead Space (VD)</span>
+              <input id="deadSpace" type="range" min="50" max="350" step="10" value="150" />
+              <strong data-output="deadSpace"></strong>
+            </label>
+            <label>
+              <span>Lung Compliance (CL)</span>
+              <input id="compliance" type="range" min="0.04" max="0.35" step="0.01" value="0.20" />
+              <strong data-output="compliance"></strong>
+            </label>
+            <label>
+              <span>Airway Resistance (Raw)</span>
+              <input id="airwayResistance" type="range" min="1" max="20" step="0.5" value="2.0" />
               <strong data-output="airwayResistance"></strong>
             </label>
             <label>
@@ -67,11 +127,12 @@
         </div>
       </section>
 
+      <!-- Model 2 Card -->
       <section class="model-card">
         <div class="section-heading">
           <div>
             <p class="eyebrow">Model 2</p>
-            <h2>Alveolar Gas Exchange and Hemoglobin</h2>
+            <h2>Alveolar Gas Exchange &amp; Hemoglobin</h2>
           </div>
           <p class="section-copy">
             Oxygen diffuses down its gradient into blood, while affinity shifts move the
@@ -80,15 +141,27 @@
         </div>
         <div class="model-grid">
           <aside class="control-panel" id="exchange-controls">
-            <label>
+            <div class="toggle-row">
+              <label for="linkModel1">
+                <input type="checkbox" id="linkModel1" checked />
+                <span>Link to Model 1 Ventilation</span>
+              </label>
+              <span id="linkModel1Status" class="efficiency-badge badge-good">Linked (V̇A active)</span>
+            </div>
+            <label id="alveolarPO2Label">
+              <span>Alveolar PO2 (PAO2)</span>
+              <input id="alveolarPO2" type="range" min="20" max="150" step="1" value="100" />
+              <strong data-output="alveolarPO2"></strong>
+            </label>
+            <label id="affinityShiftLabel">
               <span>Affinity Shift</span>
-              <input id="affinityShift" type="range" min="-20" max="20" step="1" value="0" />
+              <input id="affinityShift" type="range" min="-20" max="20" step="0.5" value="0" />
               <strong data-output="affinityShift"></strong>
             </label>
             <label>
-              <span>Environmental PO2</span>
-              <input id="alveolarPO2" type="range" min="35" max="110" step="1" value="95" />
-              <strong data-output="alveolarPO2"></strong>
+              <span>Membrane Thickness</span>
+              <input id="membraneThickness" type="range" min="0.5" max="3.0" step="0.1" value="0.5" />
+              <strong data-output="membraneThickness"></strong>
             </label>
             <label>
               <span>Blood Flow Speed</span>
@@ -104,6 +177,6 @@
       </section>
     </main>
 
-    <script src="/static/app.js"></script>
+    <script src="/static/app.js?v=3"></script>
   </body>
 </html>

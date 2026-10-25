@@ -3,11 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Alveolar Gas Exchange</title>
+    <title>Model 2: Alveolar Gas Exchange &amp; Hemoglobin Dissociation</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/static/styles.css" />
@@ -15,50 +15,108 @@
   </head>
   <body>
     <main class="page-shell">
+      <!-- Global Navigation -->
+      <nav class="site-nav">
+        <a href="/mechanics" class="nav-brand">
+          <span class="nav-icon">🫁</span>
+          <div>
+            <span class="nav-title">TP1100 Respiratory Teaching Rig</span>
+            <span class="nav-subtitle">Physical Hardware &amp; Digital Twin</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/mechanics" class="nav-link">
+            <span class="nav-badge">Model 1</span> Mechanics &amp; Efficiency
+          </a>
+          <a href="/exchange" class="nav-link active">
+            <span class="nav-badge">Model 2</span> Gas Exchange &amp; Hb
+          </a>
+          <a href="/lab-model" class="nav-link">
+            <span class="nav-badge">Model 3</span> Physical Lab Rig
+          </a>
+        </div>
+      </nav>
+
+      <!-- Hero Header -->
       <header class="hero">
         <div>
-          <p class="eyebrow">Pedagogic Physiology Studio</p>
-          <h1>Alveolar Exchange Visualizer</h1>
+          <p class="eyebrow">Digital Twin &bull; Gas Exchange &amp; Hemoglobin Affinity</p>
+          <h1>Alveolar Gas Exchange &amp; Blood Oxygenation</h1>
           <p class="lede">
-            Two linked interactive models explain how pressure changes drive ventilation
-            and how diffusion plus hemoglobin affinity shape oxygen delivery.
+            Observe oxygen diffusion across the blood-gas barrier into capillary red blood cells,
+            linked directly to Model 1's alveolar ventilation through the Alveolar Gas Equation.
+            Test how membrane thickening (Fick's law) and Bohr affinity shifts alter arterial saturation (SpO2).
           </p>
-          <div style="margin-top: 24px;">
-            <a href="/mechanics" style="display: inline-block; padding: 12px 24px; background: var(--teal); color: white; text-decoration: none; border-radius: 8px; font-weight: 600;">&larr; Go to Model 1: Respiratory Mechanics</a>
+          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="/mechanics" style="display: inline-block; padding: 10px 20px; background: var(--teal); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem;">&larr; Return to Model 1: Mechanics</a>
+            <a href="/lab-model" style="display: inline-block; padding: 10px 20px; background: rgba(22,49,58,0.08); color: var(--ink); text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem;">View Physical Benchtop Lab Guide &rarr;</a>
           </div>
         </div>
       </header>
 
+      <!-- Section: Model 2 Controls & Visualizer -->
       <section class="model-card">
         <div class="section-heading">
           <div>
-            <p class="eyebrow">Model 2</p>
-            <h2>Alveolar Gas Exchange and Hemoglobin</h2>
+            <p class="eyebrow">Physiological Gas Transport</p>
+            <h2>Microvascular Diffusion &amp; Hemoglobin Dissociation Curve</h2>
           </div>
           <p class="section-copy">
-            Oxygen diffuses down its gradient into blood, while affinity shifts move the
-            dissociation curve and change how easily red cells load or unload O2.
+            Oxygen diffuses down its partial pressure gradient across the alveolar membrane into flowing erythrocytes.
+            The right graph plots the live sigmoidal oxyhemoglobin dissociation curve with alveolar loading and tissue unloading operating points.
           </p>
         </div>
+
         <div class="model-grid">
           <aside class="control-panel" id="exchange-controls">
-            <label>
-              <span>Affinity Shift</span>
-              <input id="affinityShift" type="range" min="-20" max="20" step="1" value="0" />
-              <strong data-output="affinityShift"></strong>
-            </label>
-            <label>
-              <span>Environmental PO2</span>
-              <input id="alveolarPO2" type="range" min="35" max="110" step="1" value="95" />
+            <!-- Link to Model 1 toggle -->
+            <div class="toggle-row">
+              <label for="linkModel1">
+                <input type="checkbox" id="linkModel1" checked />
+                <span>Link to Model 1 Ventilation</span>
+              </label>
+              <span id="linkModel1Status" class="efficiency-badge badge-good">Linked (V̇A active)</span>
+            </div>
+            <small class="slider-subtext" style="margin-top:-6px; margin-bottom: 4px;">
+              Automatically derives PAO2, PACO2, and Bohr shift from Model 1's effective alveolar ventilation.
+            </small>
+
+            <!-- Environmental / Alveolar PO2 -->
+            <label id="alveolarPO2Label">
+              <span>Alveolar PO2 (PAO2)</span>
+              <input id="alveolarPO2" type="range" min="20" max="150" step="1" value="100" />
               <strong data-output="alveolarPO2"></strong>
+              <small class="slider-subtext">Alveolar partial pressure of O2 (mmHg)</small>
             </label>
+
+            <!-- Affinity Shift (Bohr Effect) -->
+            <label id="affinityShiftLabel">
+              <span>Affinity Shift (Bohr Effect)</span>
+              <input id="affinityShift" type="range" min="-20" max="20" step="0.5" value="0" />
+              <strong data-output="affinityShift"></strong>
+              <small class="slider-subtext">pH, temperature, 2,3-BPG, &amp; CO2 shift (mmHg)</small>
+            </label>
+
+            <!-- Diffusion Membrane Thickness -->
             <label>
-              <span>Blood Flow Speed</span>
+              <span>Membrane Thickness (Fick's Barrier)</span>
+              <input id="membraneThickness" type="range" min="0.5" max="3.0" step="0.1" value="0.5" />
+              <strong data-output="membraneThickness"></strong>
+              <small class="slider-subtext">Blood-gas barrier (0.5 µm normal; &gt;1.5 µm pulmonary edema / fibrosis)</small>
+            </label>
+
+            <!-- Capillary Blood Flow Speed -->
+            <label>
+              <span>Capillary Perfusion Speed</span>
               <input id="bloodFlow" type="range" min="30" max="140" step="1" value="72" />
               <strong data-output="bloodFlow"></strong>
+              <small class="slider-subtext">Transit time across alveolar capillary network</small>
             </label>
+
+            <!-- Real-Time Metrics Strip -->
             <div class="metric-strip" id="exchange-metrics"></div>
           </aside>
+
           <div class="canvas-panel">
             <div id="exchange-canvas" class="canvas-mount"></div>
           </div>
@@ -66,6 +124,6 @@
       </section>
     </main>
 
-    <script src="/static/app.js?v=2"></script>
+    <script src="/static/app.js?v=3"></script>
   </body>
 </html>

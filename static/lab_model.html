@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Physical Benchtop Lung Model | Lab Blueprint & Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <!-- Global Navigation -->
+      <nav class="site-nav">
+        <a href="/mechanics" class="nav-brand">
+          <span class="nav-icon">🫁</span>
+          <div>
+            <span class="nav-title">TP1100 Respiratory Teaching Rig</span>
+            <span class="nav-subtitle">Physical Hardware &amp; Digital Twin</span>
+          </div>
+        </a>
+        <div class="nav-links">
+          <a href="/mechanics" class="nav-link">
+            <span class="nav-badge">Model 1</span> Mechanics &amp; Efficiency
+          </a>
+          <a href="/exchange" class="nav-link">
+            <span class="nav-badge">Model 2</span> Gas Exchange &amp; Hb
+          </a>
+          <a href="/lab-model" class="nav-link active">
+            <span class="nav-badge">Model 3</span> Physical Lab Rig
+          </a>
+        </div>
+      </nav>
+
+      <!-- Hero Header -->
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Physical Hardware Blueprint &amp; Student Lab Guide</p>
+          <h1>Low-Cost Benchtop Lung Apparatus</h1>
+          <p class="lede">
+            A hands-on, quantitative mechanical classroom build paired with the digital simulation.
+            Students measure intrapleural pressure swings with a U-tube water manometer, alter anatomical
+            dead space and airway resistance, compare compliance in balloon lungs, and calculate Work of Breathing.
+          </p>
+          <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="/mechanics" style="display: inline-block; padding: 10px 20px; background: var(--teal); color: white; text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem;">&larr; Open Digital Twin (Model 1)</a>
+            <a href="#experiments" style="display: inline-block; padding: 10px 20px; background: rgba(22,49,58,0.08); color: var(--ink); text-decoration: none; border-radius: 10px; font-weight: 600; font-size: 0.9rem;">Jump to Lab Protocols &darr;</a>
+          </div>
+        </div>
+      </header>
+
+      <!-- Section: Apparatus Schematic & Physiological Mapping -->
+      <section class="model-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Hardware Architecture</p>
+            <h2>Apparatus Schematic &amp; Component Mapping</h2>
+          </div>
+          <p class="section-copy">
+            Every physical fitting corresponds 1-to-1 with a physiological parameter in the human lung
+            and the sliders in the web digital twin.
+          </p>
+        </div>
+
+        <!-- Interactive / Clean Visual Diagram -->
+        <div class="blueprint-diagram">
+          <svg viewBox="0 0 920 460" width="100%" height="auto" style="display:block; max-height: 480px; font-family: 'IBM Plex Sans', sans-serif;">
+            <!-- Background atmosphere box -->
+            <rect x="20" y="20" width="220" height="420" rx="16" fill="rgba(13, 124, 134, 0.04)" stroke="rgba(13, 124, 134, 0.2)" stroke-dasharray="4 4"/>
+            <text x="35" y="48" font-size="13" font-weight="700" fill="#0d7c86" text-transform="uppercase" letter-spacing="1">1. Ambient Air Intake</text>
+            <text x="35" y="72" font-size="12" fill="#5b7178">Atmospheric FiO2 (21%)</text>
+            
+            <!-- Tracheal tube intake -->
+            <rect x="95" y="95" width="70" height="40" rx="8" fill="#eef6f5" stroke="#0d7c86" stroke-width="2"/>
+            <text x="105" y="120" font-size="11" font-weight="600" fill="#16313a">Inlet Port</text>
+            
+            <!-- Styrofoam tracer bead -->
+            <circle cx="130" cy="180" r="10" fill="#e9c46a" stroke="#b07d12" stroke-width="2"/>
+            <text x="35" y="185" font-size="11" font-weight="600" fill="#b07d12">Visual Tracer Bead</text>
+            <text x="35" y="200" font-size="10" fill="#5b7178">(Oscillates in tube)</text>
+
+            <!-- Tracheal Extension Tube (Dead Space) -->
+            <rect x="120" y="135" width="20" height="110" rx="4" fill="rgba(42, 157, 244, 0.15)" stroke="#2a9df4" stroke-width="2"/>
+            <text x="35" y="240" font-size="12" font-weight="700" fill="#2a9df4">Dead Space Tube (VD)</text>
+            <text x="35" y="258" font-size="11" fill="#5b7178">Short = 5 mL | Long = 25 mL</text>
+
+            <!-- Y-Connector (Carina) -->
+            <path d="M 130 245 L 130 265 L 180 305 M 130 265 L 280 305" fill="none" stroke="#0d7c86" stroke-width="8" stroke-linecap="round"/>
+            <text x="195" y="270" font-size="11" font-weight="600" fill="#0d7c86">Y-Connector (Carina)</text>
+
+            <!-- Thoracic Chamber Box -->
+            <rect x="250" y="20" width="400" height="420" rx="20" fill="rgba(240, 248, 248, 0.95)" stroke="#0d7c86" stroke-width="3"/>
+            <text x="270" y="48" font-size="14" font-weight="700" fill="#0d7c86" text-transform="uppercase" letter-spacing="1">2. Airtight Thoracic Chamber</text>
+            <text x="270" y="70" font-size="11" fill="#5b7178">Rigid clear 3L PET / Acrylic Chamber (Intrapleural Space)</text>
+
+            <!-- Airway Resistance Clamps (Left & Right Bronchi) -->
+            <rect x="305" y="105" width="28" height="24" rx="4" fill="#e07a5f" stroke="#c93b27" stroke-width="1.5"/>
+            <text x="268" y="100" font-size="10" font-weight="700" fill="#c93b27">Roller Clamp (Raw L)</text>
+            
+            <rect x="425" y="105" width="28" height="24" rx="4" fill="#e07a5f" stroke="#c93b27" stroke-width="1.5"/>
+            <text x="440" y="100" font-size="10" font-weight="700" fill="#c93b27">Roller Clamp (Raw R)</text>
+
+            <!-- Bronchial tubes inside chamber -->
+            <path d="M 280 305 L 320 120 L 320 160" fill="none" stroke="#0d7c86" stroke-width="6"/>
+            <path d="M 280 305 L 440 120 L 440 160" fill="none" stroke="#0d7c86" stroke-width="6"/>
+
+            <!-- Left & Right Balloon Lungs (Compliance) -->
+            <ellipse cx="320" cy="225" rx="44" ry="60" fill="rgba(208, 89, 108, 0.7)" stroke="#c53a43" stroke-width="2"/>
+            <text x="286" y="225" font-size="12" font-weight="700" fill="#ffffff">Left Lung</text>
+            <text x="280" y="242" font-size="10" fill="#ffffff">(Balloon C_L)</text>
+
+            <ellipse cx="440" cy="225" rx="44" ry="60" fill="rgba(208, 89, 108, 0.7)" stroke="#c53a43" stroke-width="2"/>
+            <text x="404" y="225" font-size="12" font-weight="700" fill="#ffffff">Right Lung</text>
+            <text x="400" y="242" font-size="10" fill="#ffffff">(Balloon C_L)</text>
+
+            <!-- Diaphragm Syringe Piston at bottom -->
+            <rect x="330" y="340" width="100" height="55" rx="6" fill="#ffffff" stroke="#16313a" stroke-width="2"/>
+            <rect x="365" y="395" width="30" height="35" fill="#5b7178"/>
+            <rect x="345" y="425" width="70" height="8" rx="3" fill="#16313a"/>
+            <!-- Syringe Volume markings -->
+            <line x1="335" y1="355" x2="345" y2="355" stroke="#16313a" stroke-width="1.5"/>
+            <line x1="335" y1="370" x2="350" y2="370" stroke="#16313a" stroke-width="1.5"/>
+            <line x1="335" y1="385" x2="345" y2="385" stroke="#16313a" stroke-width="1.5"/>
+            <text x="445" y="365" font-size="11" font-weight="700" fill="#16313a">100 mL Syringe Piston</text>
+            <text x="445" y="380" font-size="10" fill="#5b7178">Controls Tidal Volume (VT)</text>
+            <text x="445" y="395" font-size="10" fill="#5b7178">&amp; Breathing Rate (RR)</text>
+
+            <!-- Pleural Stopcock Valve (Pneumothorax) -->
+            <circle cx="590" cy="120" r="14" fill="#ffffff" stroke="#e07a5f" stroke-width="2.5"/>
+            <line x1="580" y1="120" x2="600" y2="120" stroke="#e07a5f" stroke-width="3"/>
+            <text x="520" y="90" font-size="10" font-weight="700" fill="#e07a5f">3-Way Stopcock</text>
+            <text x="515" y="104" font-size="9" fill="#5b7178">(Pneumothorax Vent)</text>
+
+            <!-- Manometer connection port -->
+            <path d="M 650 240 L 710 240 L 710 320" fill="none" stroke="#0d7c86" stroke-width="4"/>
+
+            <!-- U-Tube Water Manometer Box -->
+            <rect x="680" y="20" width="220" height="420" rx="16" fill="rgba(13, 124, 134, 0.04)" stroke="rgba(13, 124, 134, 0.2)" stroke-dasharray="4 4"/>
+            <text x="695" y="48" font-size="13" font-weight="700" fill="#0d7c86" text-transform="uppercase" letter-spacing="1">3. U-Tube Manometer</text>
+            <text x="695" y="70" font-size="11" fill="#5b7178">Measures P_pl in cmH2O</text>
+
+            <!-- Ruler background -->
+            <rect x="740" y="100" width="70" height="250" fill="#ffffff" stroke="#d0dcd8" stroke-width="1"/>
+            <!-- Ruler centimeter ticks -->
+            <line x1="740" y1="120" x2="752" y2="120" stroke="#5b7178" stroke-width="1"/><text x="756" y="123" font-size="8" fill="#5b7178">+10</text>
+            <line x1="740" y1="150" x2="752" y2="150" stroke="#5b7178" stroke-width="1"/><text x="756" y="153" font-size="8" fill="#5b7178">+5</text>
+            <line x1="740" y1="180" x2="758" y2="180" stroke="#c93b27" stroke-width="1.5"/><text x="762" y="183" font-size="8" font-weight="700" fill="#c93b27">0 (Patm)</text>
+            <line x1="740" y1="210" x2="752" y2="210" stroke="#5b7178" stroke-width="1"/><text x="756" y="213" font-size="8" fill="#5b7178">-5 (FRC)</text>
+            <line x1="740" y1="240" x2="752" y2="240" stroke="#5b7178" stroke-width="1"/><text x="756" y="243" font-size="8" fill="#5b7178">-10</text>
+            <line x1="740" y1="270" x2="752" y2="270" stroke="#5b7178" stroke-width="1"/><text x="756" y="273" font-size="8" fill="#5b7178">-15</text>
+            <line x1="740" y1="300" x2="752" y2="300" stroke="#5b7178" stroke-width="1"/><text x="756" y="303" font-size="8" fill="#5b7178">-20</text>
+
+            <!-- U-Tube Glass/Vinyl Path with dyed fluid -->
+            <!-- Outer tube shape -->
+            <path d="M 720 120 L 720 330 A 25 25 0 0 0 770 330 L 770 120" fill="none" stroke="rgba(22,49,58,0.2)" stroke-width="16" stroke-linecap="round"/>
+            <!-- Liquid column (displaced showing negative pressure) -->
+            <path d="M 720 160 L 720 330 A 25 25 0 0 0 770 330 L 770 240" fill="none" stroke="#0d7c86" stroke-width="12" stroke-linecap="round"/>
+            <text x="700" y="380" font-size="11" font-weight="700" fill="#0d7c86">Fluid Column Δh = 8 cm</text>
+            <text x="700" y="396" font-size="10" fill="#5b7178">Direct cmH2O pressure head</text>
+          </svg>
+        </div>
+
+        <!-- Comprehensive Mapping Table -->
+        <h3>Physiological vs. Benchtop Model Parameter Mapping</h3>
+        <table class="mapping-table">
+          <thead>
+            <tr>
+              <th>Physiological Parameter</th>
+              <th>Physical Benchtop Mechanism</th>
+              <th>Digital Twin Slider (Model 1 &amp; 2)</th>
+              <th>Key Student Observation &amp; Equation</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Tidal Volume ($V_T$)</strong></td>
+              <td>Graduated 100 mL Syringe Piston stroke $(\Delta V)$</td>
+              <td><code>Tidal Volume (mL)</code> (150–1000 mL)</td>
+              <td>Volume of air displaced per stroke. Measured in mL directly from syringe barrel markings.</td>
+            </tr>
+            <tr>
+              <td><strong>Breathing Rate ($RR$)</strong></td>
+              <td>Metronome cadence / timed piston strokes per minute</td>
+              <td><code>Respiratory Rate</code> (6–35 breaths/min)</td>
+              <td>Minute Ventilation $\dot{V}_E = V_T \times RR$. Dictates cycle period $T = 60/RR$.</td>
+            </tr>
+            <tr>
+              <td><strong>Anatomical Dead Space ($V_D$)</strong></td>
+              <td>Modular clear vinyl tracheal tubes (5 mL short vs. 25 mL extension) + lightweight pith ball tracer</td>
+              <td><code>Dead Space VD (mL)</code> (50–350 mL)</td>
+              <td>
+                Alveolar Ventilation $\dot{V}_A = (V_T - V_D) \times RR$.<br/>
+                When $V_T \le V_D$, tracer bead oscillates inside the tube without fresh air ever reaching balloons ($\dot{V}_A = 0$, 0% efficiency!).
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Airway Resistance ($R_{aw}$)</strong></td>
+              <td>IV Roller Clamps or screw pinch valves on bronchial tubes</td>
+              <td><code>Airway Resistance Raw</code> (1–20 cmH2O·s/L)</td>
+              <td>
+                Ohm's Law: $\Delta P = \dot{V} \times R_{aw}$.<br/>
+                Narrowing clamps increases hand resistance, widens P–V loop, creates phase lag, and produces auto-PEEP air trapping at high $RR$.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Lung Compliance ($C_L$)</strong></td>
+              <td>Swappable balloons: standard latex (normal) vs. banded/thickened (fibrosis) vs. nitrile bag (emphysema)</td>
+              <td><code>Lung Compliance CL</code> (0.04–0.35 L/cmH2O)</td>
+              <td>
+                Static Compliance $C_L = \Delta V / \Delta P_{pl}$.<br/>
+                Fibrotic balloons require huge negative pressure swings on the manometer to expand; emphysematous balloons expand easily but fail to recoil.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Intrapleural Pressure ($P_{pl}$)</strong></td>
+              <td>U-Tube Water Manometer with colored water against metric ruler ($\Delta h$)</td>
+              <td><code>Intrapleural Pressure</code> (cmH2O readout &amp; P–V graph)</td>
+              <td>
+                Direct physical hydrostatic pressure: $1\text{ cmH}_2\text{O} = 1\text{ cm}$ fluid height difference.<br/>
+                Resting FRC baseline $-4$ to $-5\text{ cmH}_2\text{O}$, dropping to $-8$ to $-12\text{ cmH}_2\text{O}$ during inspiration.
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Pneumothorax</strong></td>
+              <td>3-way stopcock valve opening thoracic chamber to room air</td>
+              <td><em>Simulated seal breach</em></td>
+              <td>
+                Opening stopcock allows air to rush into pleural space: $P_{pl} \to 0\text{ cmH}_2\text{O}$, transpulmonary pressure collapses balloons immediately.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Section: Bill of Materials (BOM) & Build Guide -->
+      <section class="model-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Classroom Lab Rig</p>
+            <h2>Bill of Materials (BOM) &amp; Assembly Guide</h2>
+          </div>
+          <p class="section-copy">
+            Designed for high educational fidelity at ultra-low cost ($&lt; $35 total per student workstation).
+            All parts are readily available from hardware stores, medical surplus, or educational science suppliers.
+          </p>
+        </div>
+
+        <table class="mapping-table">
+          <thead>
+            <tr>
+              <th>Item #</th>
+              <th>Component</th>
+              <th>Specification</th>
+              <th>Est. Cost</th>
+              <th>Role &amp; Tips</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><strong>Thoracic Chamber</strong></td>
+              <td>Clear rigid acrylic jar or heavy-duty wide-mouth PET canister (2.5–3.0 L) with screw lid and rubber gasket</td>
+              <td>$8.00</td>
+              <td>Must hold airtight seal up to $\pm 30\text{ cmH}_2\text{O}$. Drill 3 top holes: 1 for tracheal inlet, 1 for manometer port, 1 for stopcock.</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><strong>Diaphragm Piston</strong></td>
+              <td>100 mL catheter-tip plastic syringe (graduated)</td>
+              <td>$3.50</td>
+              <td>Inserted through a rubber grommet at the bottom or lower side of the chamber. Lubricate plunger with a drop of mineral oil for smooth motion.</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><strong>Carina Y-Connector</strong></td>
+              <td>Plastic barbed Y-connector (3/8" or 1/2" ID)</td>
+              <td>$1.50</td>
+              <td>Splits the single tracheal tube into left and right mainstem bronchial branches.</td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><strong>Conducting Airway Tubing</strong></td>
+              <td>Clear food-grade vinyl tubing (3/8" ID), 1 meter total</td>
+              <td>$3.00</td>
+              <td>Cut into short segment (trachea, 5 cm) and long swappable segment (snorkel extension, 25 cm) to vary dead space volume.</td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><strong>Airway Resistance Clamps</strong></td>
+              <td>2x IV Roller Clamps or screw-type laboratory pinch clamps</td>
+              <td>$2.00</td>
+              <td>Placed over the left and right bronchial vinyl tubing inside the chamber or accessible via external ports.</td>
+            </tr>
+            <tr>
+              <td>6</td>
+              <td><strong>Alveolar Balloons (Compliance Set)</strong></td>
+              <td>Pack of 9" latex party balloons + small elastic O-rings + nitrile finger cots</td>
+              <td>$3.00</td>
+              <td>
+                • Normal: 1 single balloon per side.<br/>
+                • Fibrosis: 2 nested balloons or 3 rubber bands around balloon.<br/>
+                • Emphysema: Pre-stretched thin nitrile bag or repeatedly inflated balloon.
+              </td>
+            </tr>
+            <tr>
+              <td>7</td>
+              <td><strong>U-Tube Water Manometer</strong></td>
+              <td>1 meter of clear 1/4" ID vinyl tubing bent into U-shape, mounted on rigid backing with cm ruler, filled with dyed water</td>
+              <td>$4.00</td>
+              <td>Zero-point marked at liquid equilibrium level. Each cm of fluid deflection equals $1\text{ cmH}_2\text{O}$.</td>
+            </tr>
+            <tr>
+              <td>8</td>
+              <td><strong>Pneumothorax Valve</strong></td>
+              <td>Plastic 3-way luer-lock stopcock with barbed adapter</td>
+              <td>$2.00</td>
+              <td>Threaded through lid. Closed = intact pleural cavity; Open = open pneumothorax.</td>
+            </tr>
+            <tr>
+              <td>9</td>
+              <td><strong>Tracer Particle</strong></td>
+              <td>Ultra-light styrofoam pith ball (4 mm diameter)</td>
+              <td>$0.50</td>
+              <td>Resting inside the vertical tracheal tube between two porous mesh stops. Shows fresh air vs. dead space airflow.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="callout-box info" style="margin-top: 16px;">
+          <strong>Airtight Assembly Checklist:</strong>
+          Use silicone sealant or hot glue around all lid feed-throughs. To test seal integrity: close stopcock, push syringe in by 30 mL, hold for 10 seconds. The water manometer height must remain completely static without drift.
+        </div>
+      </section>
+
+      <!-- Section: 4 Structured Student Lab Experiments -->
+      <section class="model-card" id="experiments">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Classroom Lab Exercises</p>
+            <h2>4 Hands-On Student Lab Protocols</h2>
+          </div>
+          <p class="section-copy">
+            Each protocol has students record physical measurements on the benchtop rig, then enter the
+            values into the digital twin to observe the resulting alveolar gas exchange and oxygenation efficiency.
+          </p>
+        </div>
+
+        <div class="experiment-grid">
+          <!-- Experiment 1 -->
+          <article class="experiment-card">
+            <h3>🧪 Experiment 1: Dead Space &amp; Breathing Strategy</h3>
+            <p><strong>Core Concept:</strong> Why rapid shallow breathing causes acute hypoxemia even when minute ventilation is normal.</p>
+            <div class="formula-chip">V̇_A = (V_T - V_D) × RR &emsp; Efficiency = V̇_A / V̇_E</div>
+            <ol class="step-list">
+              <li>Keep total minute ventilation constant at $\dot{V}_E = 6000\text{ mL/min}$.</li>
+              <li><strong>Condition A (Normal Deep Breathing):</strong> Set syringe stroke $V_T = 500\text{ mL}$ (scaled to 50 mL on rig) at $RR = 12\text{ min}^{-1}$. Observe the foam tracer bead travel fully into the carina. Alveolar ventilation is $4.2\text{ L/min}$ (70% efficiency).</li>
+              <li><strong>Condition B (Rapid Shallow Panting):</strong> Switch to $V_T = 200\text{ mL}$ (20 mL on rig) at $RR = 30\text{ min}^{-1}$. Notice the bead oscillates within the upper dead space tube without ever reaching the balloons! Alveolar ventilation plummets to $1.5\text{ L/min}$ (25% efficiency).</li>
+              <li><strong>Condition C (Snorkel Extension):</strong> Attach the 25 cm extension tube ($V_D = 300\text{ mL}$). At $V_T = 250\text{ mL}$, alveolar ventilation is strictly 0 mL/min!</li>
+            </ol>
+            <div class="callout-box">
+              <strong>Check in Digital Twin:</strong> Click the "Shallow Rapid (Dead Space Trap)" preset in Model 1. Note the red efficiency warning and link to Model 2 to see the resulting arterial desaturation.
+            </div>
+          </article>
+
+          <!-- Experiment 2 -->
+          <article class="experiment-card">
+            <h3>📊 Experiment 2: Lung Compliance &amp; Elastic Work</h3>
+            <p><strong>Core Concept:</strong> How tissue stiffness changes intrapleural pressure swings and elastic Work of Breathing.</p>
+            <div class="formula-chip">C_L = ΔV / ΔP_pl &emsp; W_elastic = 0.5 × (V_T² / C_L)</div>
+            <ol class="step-list">
+              <li>Record baseline resting manometer level (FRC, approx $-4\text{ cmH}_2\text{O}$).</li>
+              <li><strong>Condition A (Normal Compliance):</strong> Pull syringe piston by $\Delta V = 50\text{ mL}$. Record the change in water manometer height $\Delta P_{pl}$. Calculate $C_L = 50\text{ mL} / \Delta P$.</li>
+              <li><strong>Condition B (Pulmonary Fibrosis):</strong> Swap standard balloon for double-layered balloon with rubber bands. Pull syringe by the same $\Delta V = 50\text{ mL}$. Notice you must pull much harder, and the manometer swings to a deeply negative pressure ($\Delta P_{pl}$ more than doubles!). Calculate the elevated Work of Breathing.</li>
+              <li><strong>Condition C (Emphysema):</strong> Install thin pre-stretched balloon. Notice it inflates with minimal $\Delta P_{pl}$, but fails to deflate passively when syringe is released.</li>
+            </ol>
+            <div class="callout-box">
+              <strong>Check in Digital Twin:</strong> Select "Pulmonary Fibrosis" preset in Model 1. Notice the steeper static compliance line and the huge increase in required negative intrapleural pressure.
+            </div>
+          </article>
+
+          <!-- Experiment 3 -->
+          <article class="experiment-card">
+            <h3>💨 Experiment 3: Airway Resistance &amp; Dynamic Flow Lag</h3>
+            <p><strong>Core Concept:</strong> Airway narrowing, flow phase lag, peak resistive pressure, and dynamic hyperinflation (auto-PEEP).</p>
+            <div class="formula-chip">ΔP_total = (ΔV / C_L) + R_aw × V̇</div>
+            <ol class="step-list">
+              <li>Start with bronchial roller clamps fully open ($R_{aw} \approx 2\text{ cmH}_2\text{O}\cdot\text{s/L}$).</li>
+              <li>Pull and push syringe at $RR = 15\text{ min}^{-1}$. Note that balloon expansion is virtually instantaneous with piston movement.</li>
+              <li>Tighten the roller clamps to 75% occlusion (simulating asthma / severe bronchospasm).</li>
+              <li>Repeat piston strokes: observe the noticeable <strong>phase lag</strong>—the syringe finishes pulling while balloons are still slowly expanding.</li>
+              <li>Increase rate to $RR = 25\text{ min}^{-1}$: notice balloons do not have enough expiratory time to empty before the next stroke begins (<strong>dynamic air trapping / auto-PEEP</strong>).</li>
+              <li>Clamp only the left bronchus: observe <strong>asymmetric ventilation</strong> (the unobstructed right lung gets virtually all the tidal volume).</li>
+            </ol>
+            <div class="callout-box">
+              <strong>Check in Digital Twin:</strong> Select "Asthma / High Resistance" preset. Watch the P–V hysteresis loop widen dramatically, reflecting high resistive work.
+            </div>
+          </article>
+
+          <!-- Experiment 4 -->
+          <article class="experiment-card">
+            <h3>⚠️ Experiment 4: Pleural Seal &amp; Pneumothorax</h3>
+            <p><strong>Core Concept:</strong> Transpulmonary pressure gradient and chest wall mechanics.</p>
+            <div class="formula-chip">P_tp = P_alv - P_pl &emsp; If P_pl = P_atm ⇒ P_tp ≤ 0</div>
+            <ol class="step-list">
+              <li>While cycling the syringe and observing healthy balloon inflation, quickly open the 3-way stopcock on the chamber lid.</li>
+              <li>Observe what happens: room air rushes into the chamber through the valve; the water manometer drops immediately to $0\text{ cmH}_2\text{O}$.</li>
+              <li>Continue cycling the syringe piston: notice the balloons do not inflate at all! Instead, air merely flows in and out through the stopcock valve.</li>
+              <li>Close the stopcock at end-inspiration vs. end-expiration: demonstrate the concept of pleural suction evacuation (chest tube restoration).</li>
+            </ol>
+            <div class="callout-box">
+              <strong>Clinical Correlation:</strong> Teaches why chest wall penetrating trauma causes lung collapse and how subatmospheric intrapleural pressure is an absolute physiological prerequisite for negative-pressure ventilation.
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- Bottom Navigation Footer -->
+      <footer style="margin-top: 32px; text-align: center; color: var(--muted); font-size: 0.88rem;">
+        <p>TP1100 Physiological Modeling &amp; Instrumentation &bull; Physical Benchtop Model &amp; Digital Twin Toolkit</p>
+      </footer>
+    </main>
+  </body>
+</html>

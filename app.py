@@ -29,3 +29,8 @@ async def mechanics() -> FileResponse:
 @app.get("/exchange")
 async def exchange() -> FileResponse:
     return FileResponse(STATIC_DIR / "exchange.html")
+
+@app.get("/lab-model")
+async def lab_model() -> FileResponse:
+    return FileResponse(STATIC_DIR / "lab_model.html")
+
